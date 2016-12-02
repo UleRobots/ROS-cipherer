@@ -1,0 +1,26 @@
+UleRobots TEAM
+
+This is a simple talker node that publishes
+std_msgs/String to the /chatter topic and a listener node that subscribes 
+to these messages.
+
+We have used a simple cypher method for this example.
+http://www.laurentluce.com/posts/python-and-cryptography-with-pycrypto/
+
+-------------------------------------------------------
+
+The key element trick is to apply pycrypto
+
+sudo apt-get install python-pip
+sudo apt-get install autoconf g++ python2.7-dev
+sudo apt-get install python-devel
+pip  install pycrypto
+
+
+~/tmp$ pip show pycrypto
+---
+Name: pycrypto
+Version: 2.6.1
+Location: /usr/lib/python2.7/dist-packages
+Requires: 
+

@@ -1,0 +1,3 @@
+<launch>
+  <node name="listener" pkg="simple_talker_listener" type="listener.py" output="screen"/>
+</launch>
