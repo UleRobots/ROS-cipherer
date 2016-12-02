@@ -13,7 +13,7 @@ def talker():
     rate = rospy.Rate(10) # 10hz
     while not rospy.is_shutdown():
         hello_str = "hello world %s" % rospy.get_time()
-        hello_str = ''.join("Hola que tal. Cadena simple de prueba")
+        hello_str = ''.join("Hola que tal. Cadena simple de prueba.")
         rospy.loginfo(hello_str)
         pub.publish(hello_str)
         rate.sleep()
