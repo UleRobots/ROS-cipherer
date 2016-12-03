@@ -2,6 +2,7 @@ ULeRobots TEAM
 
 ROS-cipherer
 
+ROS Cipherer se implentará un nuevo nodo ROS, que permitirá que aquellos nodos que hagan uso de su funcionalidad, puedan cifrar sus salidas. En ese caso, será necesario utilizar ROS Cipherer para poder consumir las salidas encriptadas.
 
 The key element trick is to apply pycrypto
 
