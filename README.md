@@ -1,8 +1,6 @@
 ROS-cipherer
 ==============================
 
-More info robotica.unileon.es
-
 ## Description
 ROS Cipherer permitirá que aquellos nodos que hagan uso de su funcionalidad, puedan cifrar sus salidas. En ese caso, será necesario utilizar ROS Cipherer para poder consumir las salidas encriptadas.
 
@@ -36,3 +34,7 @@ To execute the image ciphering to send images between nodes:
      
 ## Crypto algorithms 
  AES y 3DES
+
+
+
+More info http://robotica.unileon.es
