@@ -37,26 +37,12 @@ def StripPadding(data, interrupt, pad):
     return data.rstrip(pad).rstrip(interrupt)
 
 def encrypt_chunk_AES(chunk,encryptor):
-    #if len(chunk) == 0:
-      #break
     if len(chunk) % 16 != 0:
       chunk += ' ' * (16 - len(chunk) % 16)
     ciphertext = encryptor.encrypt(chunk)
     return ciphertext
 
 def talker():    
-
-    #plaintext_data = 'Secret Message A'
-    #plaintext_padded = AddPadding(plaintext_data, INTERRUPT, PAD, BLOCK_SIZE)
-    #encrypted = encryptor.encrypt(plaintext_padded)
-    #decrypted =  b64encode(encrypted)
-    #print decrypted 
-    
-    #decoded_encrypted_data = b64decode(decrypted)
-    #decrypted_data = decryptor.decrypt(decoded_encrypted_data)
-    #print StripPadding(decrypted_data, INTERRUPT, PAD)
-    #print "==============================="
-    
     pub = rospy.Publisher('chatter', String, queue_size=10)
     rospy.init_node('talker', anonymous=True)
     rate = rospy.Rate(10) # 10hz
@@ -68,10 +54,8 @@ def talker():
         
         if method_ == "AES":
             encryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
-            decryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
         elif method_ == "3DES":
             encryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
-            decryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
         else:
             rospy.logerr('Invalid encryption method >: %s', method_)
     except:
@@ -80,26 +64,10 @@ def talker():
     
     while not rospy.is_shutdown():
         hello_str = "hello world %s" % rospy.get_time()
-        rospy.loginfo(hello_str)
-        #print "********1"
-        #print hello_str
-         
-        #if len(hello_str) % 16 != 0:
-          #hello_str += ' ' * (16 - len(hello_str) % 16)
-        #print hello_str
-        #cadenilla = encryptor.encrypt(hello_str)
-        
-        #print cadenilla
-        #print decryptor.decrypt(cadenilla)
-        #pub.publish( "".join(encrypt_chunk_AES(hello_str, encryptor)))
-        #print decryptor.decrypt("".join(encrypt_chunk_AES(hello_str, encryptor)))
-        #print "********2"
+        rospy.loginfo(hello_str)hunk_AES(hello_str, encryptor)))
         plaintext_padded = AddPadding(hello_str, INTERRUPT, PAD, BLOCK_SIZE)
         encrypted = encryptor.encrypt(plaintext_padded)
         pub.publish(b64encode(encrypted))
-
-        #print decryptor.decrypt("".join(encrypt_chunk_AES(hello_str, encryptor)))
-        #pub.publish(encrypt_chunk_AES(hello_str, key))
         rate.sleep()
 
 if __name__ == '__main__':

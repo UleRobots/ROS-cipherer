@@ -1,0 +1,5 @@
+<launch>
+  <node name="image_decrypter" pkg="image_ciphering" type="image_decrypt_node.py" output="screen">
+   <param name="mode" value="AES" />
+  </node>
+</launch>

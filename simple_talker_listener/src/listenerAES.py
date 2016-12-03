@@ -23,18 +23,16 @@ PAD = u'\u0000'
 def decrypt_chunk_DES3(chunk):
     if len(chunk) == 0:
       print "empty chain"
-    
-    return cipher_for_decryption.decrypt(chunk)
+    return encryptor.decrypt(chunk)
     
 def decrypt_chunk_AES(chunk):
-    encrypted = chunk
-    decoded_encrypted_data = b64decode(encrypted)
-    decrypted_data = cipher_for_decryption.decrypt(decoded_encrypted_data)
-    decrypted = StripPadding(decrypted_data, INTERRUPT, PAD)
-    return decrypted
+    decoded_encrypted_data = b64decode(chunk)
+    decrypted_data = encryptor.decrypt(decoded_encrypted_data)
+    decrypted_stripped = StripPadding(decrypted_data, INTERRUPT, PAD)
+    return decrypted_stripped
 
 def StripPadding(data, interrupt, pad):
-    return data.rstrip(pad).rstrip(interrupt)  
+    return data.rstrip(pad).rstrip(interrupt) 
                 
 def callback(data):
     #if method_ == "3DES":
@@ -42,7 +40,7 @@ def callback(data):
     #else:
     rospy.loginfo(rospy.get_caller_id() + ' - I heard: %s ', decrypt_chunk_AES(data.data))
 def listener():
-    global cipher_for_decryption
+    global encryptor
     global method_
     
     rospy.init_node('listener', anonymous=True)
@@ -53,14 +51,14 @@ def listener():
         SECRET_KEY = rospy.get_param('~secret_key')
         IV = rospy.get_param('~IV')
         
-        #if method_ == "AES":
-        cipher_for_decryption = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
+        if method_ == "AES":
+	    encryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
         #elif method_ == "3DES":
-            #cipher_for_decryption = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
-        #else:
-            #rospy.logerr('Invalid encryption method >: %s', method_)
+            #encryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
+        else:
+            rospy.logerr('Invalid encryption method: %s', method_)
     except:
-        rospy.logerr('Please specify an encryption method')
+        rospy.logerr('Please specify an encryption method!')
         return
     
     rospy.Subscriber('chatter', String, callback)
