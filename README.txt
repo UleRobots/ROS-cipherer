@@ -22,3 +22,21 @@ Name: pycrypto
 Version: 2.6.1
 Location: /usr/lib/python2.7/dist-packages
 Requires: 
+
+----------------------------------------------------
+Instructions to run code:
+
+To execute simple talker/listener to send string messages between ROS nodes in encrypted way:
+  Robot side:
+    roslaunch  simple_talker_listener  talkerCipherer.launch
+
+  PC side:
+    roslaunch  simple_talker_listener  listenerCipherer.launch
+
+
+To execute the image ciphering to send images between nodes:
+  Robot side:
+    roslaunch  image_ciphering  image_node_encryption.launch
+
+  PC side:
+    roslaunch  image_ciphering  image_node_decryption.launch
