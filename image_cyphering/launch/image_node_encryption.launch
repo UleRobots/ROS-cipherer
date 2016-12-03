@@ -1,6 +1,0 @@
-<launch>
-  <node name="image_encrypter" pkg="image_ciphering" type="image_encrypt_node.py" output="screen">
-    <param name="mode" value="BF" />
-  </node>
-
-</launch>
