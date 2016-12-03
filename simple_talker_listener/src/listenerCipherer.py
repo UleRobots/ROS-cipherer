@@ -19,7 +19,11 @@ from datetime import datetime
 BLOCK_SIZE = 16
 INTERRUPT = u'\u0001'
 PAD = u'\u0000'
-    
+
+# Metodo en el que se descifra el mensaje recibido en funcion del metodo seleccionado
+# Se obtiene la SK y el tipo de cifrado, se obtiene el IV de la primera parte del mensaje
+# Se inicializa el cifrador con la SK y el IV
+# Se descifra el resto del mensaje sin tener en cuenta el IV
 def decrypt_chunk(chunk):
     #decoded_encrypted_data = b64decode(chunk)
     decoded_encrypted_data = chunk
@@ -53,13 +57,15 @@ def decrypt_chunk(chunk):
 
 def StripPadding(data, interrupt, pad):
     return data.rstrip(pad).rstrip(interrupt) 
-                
+
+# Metodo que muestra por pantalla el mensaje recibido descrifrado                
 def callback(data):
     msg = decrypt_chunk(data.data)
     
     if msg:
         rospy.loginfo(rospy.get_caller_id() + ' - I heard: %s ', msg)
-    
+
+# Metodo en el que se crea un nodo y se suscribe al topic chatter
 def listener():
     rospy.init_node('listener', anonymous=True)    
     rospy.Subscriber('chatter', String, callback)
