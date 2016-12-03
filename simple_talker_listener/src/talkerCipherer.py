@@ -32,6 +32,9 @@ def AddPadding(data, interrupt, pad, block_size):
     pad_string = pad * to_pad_len
     return ''.join([new_data, pad_string])
 
+# Metodo que crea un nodo y publica en el topic chatter
+# Se crea un vector de inicializacion aleatorio que se enviara en claro al principio del mensaje
+# El tag es una marca de tiempo
 def talker():    
     pub = rospy.Publisher('chatter', String, queue_size=10)
     rospy.init_node('talker', anonymous=True)
