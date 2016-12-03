@@ -40,7 +40,7 @@ def decrypt_chunk(chunk):
     decrypted_stripped = StripPadding(decrypted_data, INTERRUPT, PAD)
     
     tag_received = decrypted_stripped[:10]
-    tag = "%s" % rospy.get_rostime().nsecs
+    tag = "%s" % rospy.get_rostime().secs
     
     rospy.loginfo(rospy.get_caller_id() + ' - tag: %s, tag_received: %s', tag, tag_received)
     
