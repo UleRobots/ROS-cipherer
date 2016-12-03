@@ -6,9 +6,10 @@
 # to the 'chatter' topic.
 
 import rospy
+
 from std_msgs.msg import String
-import os
-from Crypto.Cipher import AES
+import os,sys
+from Crypto.Cipher import AES,DES3
 from Crypto import Random
 
 from base64 import b64encode, b64decode
@@ -44,12 +45,6 @@ def encrypt_chunk_AES(chunk,encryptor):
     return ciphertext
 
 def talker():    
-    SECRET_KEY = u'a1b2c3d4e5f6g7h8a1b2c3d4e5f6g7h8'
-    IV = u'12345678abcdefgh'
-
-    encryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
-    
-    decryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
 
     #plaintext_data = 'Secret Message A'
     #plaintext_padded = AddPadding(plaintext_data, INTERRUPT, PAD, BLOCK_SIZE)
@@ -65,6 +60,24 @@ def talker():
     pub = rospy.Publisher('chatter', String, queue_size=10)
     rospy.init_node('talker', anonymous=True)
     rate = rospy.Rate(10) # 10hz
+
+    try:
+        method_ = rospy.get_param('~ciphering')
+        SECRET_KEY = rospy.get_param('~secret_key')
+        IV = rospy.get_param('~IV')
+        
+        if method_ == "AES":
+            encryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
+            decryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
+        elif method_ == "3DES":
+            encryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
+            decryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
+        else:
+            rospy.logerr('Invalid encryption method >: %s', method_)
+    except:
+        rospy.logerr('Please specify an encryption method')
+        return
+    
     while not rospy.is_shutdown():
         hello_str = "hello world %s" % rospy.get_time()
         rospy.loginfo(hello_str)

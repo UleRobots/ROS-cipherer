@@ -1,0 +1,19 @@
+1. Tener curl instalado.
+2. Instalar docker con:
+	curl -fsSL https://get.docker.com/ | sh
+3. Ejecutar:
+	docker run hello-world
+4. Si da error de que el demonio no se está ejecutando:
+	curl -fsSL https://get.docker.com/ | sh
+5. Volver al paso 3.
+
+-----
+
+
+1. Compilar y ejecutar el Dockerfile:
+	cd a la carpeta docker_example
+	docker build -t="docker_example" .
+2. Abrir el prompt de esa máquina virtual que ya ha hecho todo lo que esté en Dockerfile:
+	docker run -i -t docker_example
+3. Salir:
+	exit

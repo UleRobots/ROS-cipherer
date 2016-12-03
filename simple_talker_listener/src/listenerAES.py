@@ -4,7 +4,7 @@ import rospy
 from std_msgs.msg import String
 import os
 from Crypto import Random
-from Crypto.Cipher import AES
+from Crypto.Cipher import AES, DES3
 import time
 from functools import wraps
  
@@ -19,7 +19,13 @@ from datetime import datetime
 BLOCK_SIZE = 16
 INTERRUPT = u'\u0001'
 PAD = u'\u0000'
-             
+
+def decrypt_chunk_DES3(chunk):
+    if len(chunk) == 0:
+      print "empty chain"
+    
+    return cipher_for_decryption.decrypt(chunk)
+    
 def decrypt_chunk_AES(chunk):
     encrypted = chunk
     decoded_encrypted_data = b64decode(encrypted)
@@ -31,16 +37,32 @@ def StripPadding(data, interrupt, pad):
     return data.rstrip(pad).rstrip(interrupt)  
                 
 def callback(data):
+    #if method_ == "3DES":
+        #rospy.loginfo(rospy.get_caller_id() + 'I heard %s', decrypt_chunk_DES3(data.data))
+    #else:
     rospy.loginfo(rospy.get_caller_id() + ' - I heard: %s ', decrypt_chunk_AES(data.data))
-
 def listener():
-    SECRET_KEY = u'a1b2c3d4e5f6g7h8a1b2c3d4e5f6g7h8'
-    IV = u'12345678abcdefgh'
-
     global cipher_for_decryption
-    cipher_for_decryption = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
+    global method_
     
     rospy.init_node('listener', anonymous=True)
+    
+    try:
+        global method_
+        method_ = rospy.get_param('~ciphering')
+        SECRET_KEY = rospy.get_param('~secret_key')
+        IV = rospy.get_param('~IV')
+        
+        #if method_ == "AES":
+        cipher_for_decryption = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
+        #elif method_ == "3DES":
+            #cipher_for_decryption = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
+        #else:
+            #rospy.logerr('Invalid encryption method >: %s', method_)
+    except:
+        rospy.logerr('Please specify an encryption method')
+        return
+    
     rospy.Subscriber('chatter', String, callback)
 
     # spin() simply keeps python from exiting until this node is stopped
