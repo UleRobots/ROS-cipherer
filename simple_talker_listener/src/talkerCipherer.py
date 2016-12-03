@@ -65,7 +65,6 @@ def talker():
         plaintext_padded = AddPadding(tag + hello_str, INTERRUPT, PAD, BLOCK_SIZE)
         encrypted = IV + encryptor.encrypt(plaintext_padded)
         pub.publish(encrypted)
-        #pub.publish(b64encode(encrypted))
         
         rate.sleep()
 

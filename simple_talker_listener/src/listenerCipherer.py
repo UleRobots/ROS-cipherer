@@ -25,7 +25,6 @@ PAD = u'\u0000'
 # Se inicializa el cifrador con la SK y el IV
 # Se descifra el resto del mensaje sin tener en cuenta el IV
 def decrypt_chunk(chunk):
-    #decoded_encrypted_data = b64decode(chunk)
     decoded_encrypted_data = chunk
     
     method_ = rospy.get_param('~ciphering')
@@ -38,8 +37,7 @@ def decrypt_chunk(chunk):
         encryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
     else:
         rospy.logerr('Invalid encryption method: %s', method_)
-            
-    #decrypted_data = encryptor.decrypt(decoded_encrypted_data)
+    
     decrypted_data = encryptor.decrypt(decoded_encrypted_data[AES.block_size:])
     decrypted_stripped = StripPadding(decrypted_data, INTERRUPT, PAD)
     
