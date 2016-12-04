@@ -7,9 +7,8 @@ ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, 
 ## Packages
 ROS Ciphered includes to packages
 
-- simple_talker_listener
-      publishes/consume std_msgs/String to the /chatter topic.
-- image_ciphering
+- simple_talker_listener: publishes/consume std_msgs/String to the /chatter topic.
+- image_ciphering: publishes/consume sensor_msgs/CompressedImages to the /output/image_encrypted topic.
 
 ## Environment settings
 It is necessary to have Ubuntu 14.04 and ROS (Indigo version) installed.
