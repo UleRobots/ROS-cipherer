@@ -2,7 +2,7 @@ ROS-cipherer
 ==============================
 
 ## Description
-ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, consiguiendo que los *topics* (canales de información) sólo puedan ser leídos por aquellos nodos que tengan la clave de descifrado.
+ROS Cipherer allows ROS publisher nodes to publish encrypted topics. Moreover, it allows ROS suscriber nodes to consume encrypted topics
 
 ## Packages
 ROS Ciphered includes two packages:
@@ -61,7 +61,7 @@ Install some dev tools and the pycrypto library:
       $ sudo apt-get install python-pip autoconf g++ python2.7-dev python-devel
       $ pip  install pycrypto
       
-Check pycripto version:
+Check pycripto installation:
 
       ~/tmp$ pip show pycrypto
       Name: pycrypto
