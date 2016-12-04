@@ -7,7 +7,11 @@ by Simon Haller <simon.haller at uibk.ac.at>.
 
 
 # Python libs
-import sys, time
+import sys, time, datetime
+
+# numpy and scipy
+import numpy as np
+from scipy.ndimage import filters
 
 # OpenCV
 import cv2
@@ -26,13 +30,10 @@ from Crypto.Cipher import AES
 from Crypto import Random
 from base64 import b64encode, b64decode
 
-import datetime
-import time
 
 MODE_AES = 0
-MODE_3DES = 2
+MODE_3DES = 1
 
-START_MODE=0
 
 # AES is a block cipher so you need to define size of block.
 # Valid options are 16, 24, and 32
@@ -80,20 +81,25 @@ class FPS:
                 return self._numFrames / (datetime.datetime.now() - self._start).total_seconds()
 
 
-class image_feature:
+class image_decrypter:
 
     def __init__(self):
         '''Initialize ros publisher, ros subscriber'''
-        # subscribed Topic
-        self.subscriber = rospy.Subscriber("/output/image_raw/compressed",
+        # subscribed topic
+        self.subscriber = rospy.Subscriber("/output/image_encrypted/compressed",
             CompressedImage, self.callback,  queue_size = 1)
-        if VERBOSE :
-            print "subscribed to /camera/image/compressed"
+	
+        if VERBOSE:
+            print "subscribed to /output/image_encrypted/compressed"
         self.enc_mode = -1
         
+        # topic where we publish
+        self.image_pub = rospy.Publisher("/output/image_decrypted/compressed",
+            CompressedImage, queue_size = 1)
+	
         try:
-            method_ = rospy.get_param('~mode')
-            rospy.logerr('Encryption method: %s', method_)
+            method_ = rospy.get_param('~ciphering')
+            rospy.logwarn('Decryption method: %s', method_)
             
             self.enc_mode = self.set_mode(method_)
             
@@ -116,7 +122,7 @@ class image_feature:
     
     def set_mode(self, mode):
         encryption_mode = -1
-        rospy.logerr('Encryption method: %s', mode)
+        rospy.logwarn('Decryption method: %s', mode)
         if(mode in "AES"):
           encryption_mode = MODE_AES
         elif(mode in "3DES"):
@@ -127,7 +133,6 @@ class image_feature:
         key = '0123456701234567'
         iv = ';;;;;;;;'
         des3 = DES3.new(key, DES3.MODE_CFB, iv)
-
         if len(chunk) == 0:
           print "empty chain"
         return des3.decrypt(chunk)
@@ -143,7 +148,7 @@ class image_feature:
       
     def callback(self, ros_data):
         '''Callback function of subscribed topic. 
-        Here images get converted and features detected'''
+        Here images get decrypted'''
         
         #### direct conversion to CV2 ####
         if (self.enc_mode == MODE_3DES):
@@ -158,28 +163,35 @@ class image_feature:
         #font = cv2.FONT_HERSHEY_SIMPLEX
         #cv2.putText(image_np,"{:.2f}".format(self.fps.partialfps()),(10,470), font, 1,(255,255,255),2) 
         #cv2.imshow('After_Encryption', image_np)
-        cv2.imshow('After_Encryption')
-        cv2.waitKey(2)
+        #cv2.waitKey(2)
+        
+        #### Create CompressedIamge ####
+        msg = CompressedImage()
+        msg.header.stamp = rospy.Time.now()
+        msg.format = "jpeg"
+        msg.data = np.array(cv2.imencode('.jpg', image_np)[1]).tostring()
+        
+        # Publish new image
+        self.image_pub.publish(msg)
 
     def exit(self):
         # stop the timer and display FPS information
-        #self.fps.stop()
+        self.fps.stop()
         print("[INFO] Decrypter node: elapsed time: {:.2f}".format(self.fps.elapsed()))
         print("[INFO] Decrypter node: approx. FPS: {:.2f}".format(self.fps.fps()))
 
 
 def main(args):
     '''Initializes and cleans up ros node'''
-    rospy.init_node('image_feature', anonymous=True)
-    ic = image_feature()
+    rospy.init_node('image_decrypter', anonymous=True)
+    img_dec = image_decrypter()
     try:
         rospy.spin()
     except KeyboardInterrupt:
-        print "Shutting down ROS Image feature detector module"
-    cv2.destroyAllWindows()
-    ic.exit()
+        print "Shutting down ROS image encryption node"
+    #cv2.destroyAllWindows()
+    img_dec.exit()
 
 if __name__ == '__main__':
-    #time.sleep( 3 )
     main(sys.argv)
     

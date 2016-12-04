@@ -1,8 +1,0 @@
-1. Tener curl instalado.
-2. Instalar docker con:
-	curl -fsSL https://get.docker.com/ | sh
-3. Ejecutar:
-	docker run hello-world
-4. Si da error de que el demonio no se está ejecutando:
-	curl -fsSL https://get.docker.com/ | sh
-5. Volver al paso 3.
