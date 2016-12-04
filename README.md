@@ -70,9 +70,6 @@ To execute the image ciphering to send images between nodes:
       $ roslaunch  image_ciphering  image_node_encryption.launch
 #### PC side:
       $ roslaunch  image_ciphering  image_node_decryption.launch
-     
-## You can change the algorithm used for encryption:
- AES and 3DES
 
 ======
 More info http://robotica.unileon.es
