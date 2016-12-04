@@ -2,7 +2,13 @@ ROS-cipherer
 ==============================
 
 ## Description
-ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, consiguiendo que los *topics* (canales de información) sólo puedan ser leídos por aquellos nodos que tengan la clave de descifrado.
+ROS Cipherer allows ROS publisher nodes to publish encrypted topics. Moreover, it allows ROS suscriber nodes to consume encrypted topics
+
+## Packages
+ROS Ciphered includes two packages:
+
+- simple_talker_listener: publishes/consume std_msgs/String to the /chatter topic.
+- image_ciphering: publishes/consume sensor_msgs/CompressedImages to the /output/image_encrypted topic.
 
 ## Environment settings
 It is necessary to have Ubuntu 14.04 and ROS (Indigo version) installed.
@@ -55,21 +61,13 @@ Install some dev tools and the pycrypto library:
       $ sudo apt-get install python-pip autoconf g++ python2.7-dev python-devel
       $ pip  install pycrypto
       
-Check pycripto version:
+Check pycripto installation:
 
       ~/tmp$ pip show pycrypto
       Name: pycrypto
       Version: 2.6.1
       Location: /usr/lib/python2.7/dist-packages
       Requires: 
-
-
-
-To execute the image ciphering to send images between nodes:
-#### Robot side:
-      $ roslaunch  image_ciphering  image_node_encryption.launch
-#### PC side:
-      $ roslaunch  image_ciphering  image_node_decryption.launch
 
 ======
 More info http://robotica.unileon.es

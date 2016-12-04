@@ -16,14 +16,12 @@ from base64 import b64encode, b64decode
 from re import sub
 from datetime import datetime
 
-# AES is a block cipher so you need to define size of block.
-# Valid options are 16, 24, and 32
+# AES is a block cipher so you need to define size of block. Valid options are 16, 24, and 32
 BLOCK_SIZE = 16 
 INTERRUPT = u'\u0001'
 PAD = u'\u0000'
 
-# Since it is needed to pad your data before encryption, 
-# we create a padding function as well.
+# Since it is needed to pad your data before encryption, we create a padding function as well.
 def AddPadding(data, interrupt, pad, block_size):
     new_data = ''.join([data, interrupt])
     new_data_len = len(new_data)
@@ -32,12 +30,9 @@ def AddPadding(data, interrupt, pad, block_size):
     pad_string = pad * to_pad_len
     return ''.join([new_data, pad_string])
 
-# Metodo que crea un nodo y publica en el topic chatter
-# Se crea un vector de inicializacion aleatorio que se enviara en claro al principio del mensaje
-# El tag es una marca de tiempo
 def talker():    
-    pub = rospy.Publisher('chatter', String, queue_size=10)
-    rospy.init_node('talker', anonymous=True)
+    pub = rospy.Publisher('chatter', String, queue_size=1) # node publih on /chatter topic
+    rospy.init_node('talker', anonymous=True) # register node
     rate = rospy.Rate(10) # 10hz
 
     try:
