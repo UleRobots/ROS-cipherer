@@ -1,5 +1,6 @@
-UleRobots TEAM
+simple_talker_listener
+======================
 
-This is a simple talker node that publishes
-std_msgs/String to the /chatter topic and a listener node that subscribes 
-to these messages.
+## Description
+
+This is a simple talker/listener node that publishes/consume std_msgs/String to the /chatter topic.
