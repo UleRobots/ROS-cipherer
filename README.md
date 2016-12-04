@@ -48,27 +48,22 @@ Then build the workspace:
 
 For more information about ROS installation, follow this ROS tutorial http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment
     
-
 ## Dependences
+
 Install some dev tools and the pycrypto library:
 
       $ sudo apt-get install python-pip autoconf g++ python2.7-dev python-devel
       $ pip  install pycrypto
-======
+      
+Check pycripto version:
+
       ~/tmp$ pip show pycrypto
       Name: pycrypto
       Version: 2.6.1
       Location: /usr/lib/python2.7/dist-packages
       Requires: 
 
-## Instructions to run the code:
-#### ROS-cipherer is implemented currently for encrypting string messages and image messages. 
-To execute simple talker/listener to send string messages between ROS nodes in encrypted way:
-#### Robot side:
-      $ roslaunch  simple_talker_listener  talkerCipherer.launch
 
-#### PC side:
-      $ roslaunch  simple_talker_listener  listenerCipherer.launch
 
 To execute the image ciphering to send images between nodes:
 #### Robot side:
