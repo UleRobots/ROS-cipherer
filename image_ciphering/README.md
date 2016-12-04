@@ -7,12 +7,12 @@ This is a simple talker/listener node that publishes/consume sensor_msgs/Compres
 
 ## Instructions to run the code:
 
-To execute simple talker/listener to send string messages between ROS nodes in encrypted way:
+To execute the image ciphering to send images between nodes:
 
 #### Robot side:
 
-      $ roslaunch  simple_talker_listener  talkerCipherer.launch
+      $ roslaunch  image_ciphering  image_node_encryption.launch
 
 #### PC side:
 
-      $ roslaunch  simple_talker_listener  listenerCipherer.launch
+      $ roslaunch  image_ciphering  image_node_decryption.launch
