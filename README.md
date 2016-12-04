@@ -63,13 +63,5 @@ Check pycripto version:
       Location: /usr/lib/python2.7/dist-packages
       Requires: 
 
-
-
-To execute the image ciphering to send images between nodes:
-#### Robot side:
-      $ roslaunch  image_ciphering  image_node_encryption.launch
-#### PC side:
-      $ roslaunch  image_ciphering  image_node_decryption.launch
-
 ======
 More info http://robotica.unileon.es
