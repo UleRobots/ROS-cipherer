@@ -4,6 +4,12 @@ ROS-cipherer
 ## Description
 ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, consiguiendo que los *topics* (canales de información) sólo puedan ser leídos por aquellos nodos que tengan la clave de descifrado.
 
+## Packages
+ROS Ciphered includes to packages
+
+- simple_talker_listener
+- image_ciphering
+
 ## Environment settings
 It is necessary to have Ubuntu 14.04 and ROS (Indigo version) installed.
 #### Steps to install ROS indigo
