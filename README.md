@@ -5,10 +5,10 @@ ROS-cipherer
 ROS Cipherer allows ROS publisher nodes to publish encrypted topics. Moreover, it allows ROS suscriber nodes to consume encrypted topics
 
 ## Packages
-ROS Ciphered includes two packages:
+ROS Cipherer includes two packages:
 
-- simple_talker_listener: publishes/consume std_msgs/String to the /chatter topic.
-- image_ciphering: publishes/consume sensor_msgs/CompressedImages to the /output/image_encrypted topic.
+- simple_talker_listener: publishes/consumes std_msgs/String to the topic /chatter.
+- image_ciphering: publishes/consumes sensor_msgs/CompressedImages to the topic /output/image_encrypted.
 
 ## Environment settings
 It is necessary to have Ubuntu 14.04 and ROS (Indigo version) installed.
@@ -23,7 +23,7 @@ Then, make an update:
 
       $ sudo apt-get update
       
-For a complete installation of ROS (recommended):
+Do a complete installation of ROS (recommended):
 
       $ sudo apt-get install ros-indigo-desktop-full
       
@@ -48,7 +48,11 @@ Then build the workspace:
       $ cd ~/catkin_ws/
       $ catkin_make
       
-*Remember*: After cloning ROS-cipherer proyect on ~/catkin_ws/src, you have to run
+Now clone the ROS-ciphered repository into your ~/catkin_ws/src:
+
+      $ git clone https://github.com/UleRobots/ROS-cipherer.git
+
+*Remember*: After cloning ROS-cipherer proyect, you have to run
 
       $ catkin_make
 
@@ -59,7 +63,7 @@ For more information about ROS installation, follow this ROS tutorial http://wik
 Install some dev tools and the pycrypto library:
 
       $ sudo apt-get install python-pip autoconf g++ python2.7-dev python-devel
-      $ pip  install pycrypto
+      $ pip install pycrypto
       
 Check pycripto installation:
 
@@ -70,4 +74,4 @@ Check pycripto installation:
       Requires: 
 
 ======
-More info http://robotica.unileon.es
+More info: http://robotica.unileon.es
