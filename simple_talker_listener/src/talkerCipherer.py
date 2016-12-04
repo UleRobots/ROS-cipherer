@@ -36,30 +36,30 @@ def talker():
     rate = rospy.Rate(10) # 10hz
 
     try:
-        method_ = rospy.get_param('~ciphering')
-        SECRET_KEY = rospy.get_param('~secret_key')
+        method_ = rospy.get_param('~ciphering') # get cipehering param: AES (default) or 3DES
+        SECRET_KEY = rospy.get_param('~secret_key') # get secret_key
     except:
         rospy.logerr('Please, specify an encryption method and a secret key.')
         return
     
     while not rospy.is_shutdown():
-        hello_str = "hello world %s" % rospy.get_time()
+        hello_str = "hello world %s" % rospy.get_time() # message
         rospy.loginfo(hello_str)
 
-        IV = Random.new().read(BLOCK_SIZE)
+        IV = Random.new().read(BLOCK_SIZE) # IV radomly generated
         
         if method_ == "AES":
-            encryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV)
+            encryptor = AES.new(SECRET_KEY, AES.MODE_CBC, IV) # init AES cipher
         elif method_ == "3DES":
-            encryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV)
+            encryptor = DES3.new(SECRET_KEY, DES3.MODE_CFB, IV) # init 3DES cipher
         else:
             rospy.logerr('Invalid encryption method >: %s', method_)
             continue
         
-        tag = "%s" % rospy.get_rostime().secs
-        plaintext_padded = AddPadding(tag + hello_str, INTERRUPT, PAD, BLOCK_SIZE)
+        tag = "%s" % rospy.get_rostime().secs # marca de tiempo
+        plaintext_padded = AddPadding(tag + hello_str, INTERRUPT, PAD, BLOCK_SIZE) # add tag at beginning of message
         encrypted = IV + encryptor.encrypt(plaintext_padded)
-        pub.publish(encrypted)
+        pub.publish(encrypted) # send IV and encrypted msg with tag
         
         rate.sleep()
 
