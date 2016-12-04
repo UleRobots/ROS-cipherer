@@ -8,6 +8,7 @@ ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, 
 ROS Ciphered includes to packages
 
 - simple_talker_listener
+      publishes/consume std_msgs/String to the /chatter topic.
 - image_ciphering
 
 ## Environment settings
