@@ -2,7 +2,7 @@ ROS-cipherer
 ==============================
 
 ## Description
-ROS Cipherer permitirá que aquellos nodos que hagan uso de su funcionalidad, puedan cifrar sus salidas. En ese caso, será necesario utilizar ROS Cipherer para poder consumir las salidas encriptadas.
+ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, consiguiendo que los *topics* (canales de información) sólo puedan ser leídos por aquellos nodos que tengan la clave de descifrado.
 
 ## Environment settings
 It is necessary to have Ubuntu 14.04 and ROS (Indigo version) installed.
@@ -21,65 +21,63 @@ For a complete installation of ROS (recommended):
 
       $ sudo apt-get install ros-indigo-desktop-full
       
-It's convenient if the ROS environment variables are automatically added to your bash session every time a new shell is launched: 
+Add ROS environment variables to your bash session every time a new shell is launched: 
 
       $ echo "source /opt/ros/indigo/setup.bash" >> ~/.bashrc
       $ source ~/.bashrc
       
-Now, it is also necessary to configuring the workspace:
+Now, it is also necessary to configuring the workspace.
 Let's create a catkin workspace: 
 
       $ mkdir -p ~/catkin_ws/src
       $ cd ~/catkin_ws/src
       $ catkin_init_workspace
       
-To build de workspace:
+Also, add your own workspace environment to the .bashrc file:
+
+      $ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
+      
+Then build the workspace:
 
       $ cd ~/catkin_ws/
       $ catkin_make
       
-Then:
-      
-      $ echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
-      
-*Remember*: After cloning ROS-cipherer proyect on ~/catkin_ws/src and after each modification make, run
+*Remember*: After cloning ROS-cipherer proyect on ~/catkin_ws/src, you have to run
 
       $ catkin_make
 
-For more information about ROS installation, consult the ROS tutorials http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment
+For more information about ROS installation, follow this ROS tutorial http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment
     
 
 ## Dependences
-The key element trick is to apply pycrypto
+Install some dev tools and the pycrypto library:
 
       $ sudo apt-get install python-pip autoconf g++ python2.7-dev python-devel
       $ pip  install pycrypto
 ======
       ~/tmp$ pip show pycrypto
-======
       Name: pycrypto
       Version: 2.6.1
       Location: /usr/lib/python2.7/dist-packages
       Requires: 
 
-## Instructions to run code:
+## Instructions to run the code:
+#### ROS-cipherer is implemented currently for encrypting string messages and image messages. 
 To execute simple talker/listener to send string messages between ROS nodes in encrypted way:
-####Robot side:
+#### Robot side:
       $ roslaunch  simple_talker_listener  talkerCipherer.launch
 
-####PC side:
+#### PC side:
       $ roslaunch  simple_talker_listener  listenerCipherer.launch
 
-
 To execute the image ciphering to send images between nodes:
-####Robot side:
+#### Robot side:
       $ roslaunch  image_ciphering  image_node_encryption.launch
-####PC side:
+#### PC side:
       $ roslaunch  image_ciphering  image_node_decryption.launch
      
-## Crypto algorithms 
- AES y 3DES
+## You can change the algorithm used for encryption:
+ AES and 3DES
 
-
-
+======
 More info http://robotica.unileon.es
