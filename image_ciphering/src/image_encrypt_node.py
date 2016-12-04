@@ -46,6 +46,8 @@ INPUT_SIZE = 8
 VERBOSE=True
 
 
+
+## Class that calculates frame rate of images, allowing to evaluate the performance while encrypting/decrypting images.
 class fps:
         def __init__(self):
                 # store the start time, end time, and total number of frames
@@ -164,7 +166,8 @@ class image_encrypt:
         '''Callback function of subscribed topic. 
         Here images get converted and encrypted'''
         
-        # print 'DEBUG: received image of type: "%s"' % ros_data.format
+        # DEBUG:
+        # print 'Received image of type: "%s"' % ros_data.format
 
         #### direct conversion to CV2 ####
         np_arr = np.fromstring(ros_data.data, np.uint8)

@@ -45,6 +45,7 @@ VERBOSE=True
 
 
 
+## Class that calculates frame rate of images, allowing to evaluate the performance while encrypting/decrypting images.
 class FPS:
         def __init__(self):
                 # store the start time, end time, and total number of frames
@@ -159,11 +160,11 @@ class image_decrypter:
         np_arr = np.fromstring(ros_data.data, np.uint8)
         image_np = cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
         
-        #self.fps.update()
-        #font = cv2.FONT_HERSHEY_SIMPLEX
-        #cv2.putText(image_np,"{:.2f}".format(self.fps.partialfps()),(10,470), font, 1,(255,255,255),2) 
-        #cv2.imshow('After_Encryption', image_np)
-        #cv2.waitKey(2)
+        self.fps.update()
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(image_np,"{:.2f}".format(self.fps.partialfps()),(10,470), font, 1,(255,255,255),2) 
+        cv2.imshow('After_Encryption', image_np)
+        cv2.waitKey(2)
         
         #### Create CompressedIamge ####
         msg = CompressedImage()

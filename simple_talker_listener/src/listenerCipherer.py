@@ -44,7 +44,8 @@ def decrypt_chunk(chunk):
     tag_received = decrypted_stripped[:10]
     tag = "%s" % rospy.get_rostime().secs
     
-    rospy.loginfo(rospy.get_caller_id() + ' - tag: %s, tag_received: %s', tag, tag_received)
+    # DEBUG:
+    # rospy.loginfo(rospy.get_caller_id() + ' - tag: %s, tag_received: %s', tag, tag_received)
     
     if tag != tag_received:
         return
@@ -73,6 +74,6 @@ def listener():
 
 if __name__ == '__main__':
     #This sleep is needed for synchronization
-    time.sleep(3)
+    time.sleep(1)
     listener()
 
