@@ -5,7 +5,7 @@ ROS-cipherer
 ROS Cipherer aplica cifrado a la información que se transmite entre nodos ROS, consiguiendo que los *topics* (canales de información) sólo puedan ser leídos por aquellos nodos que tengan la clave de descifrado.
 
 ## Packages
-ROS Ciphered includes to packages
+ROS Ciphered includes two packages:
 
 - simple_talker_listener: publishes/consume std_msgs/String to the /chatter topic.
 - image_ciphering: publishes/consume sensor_msgs/CompressedImages to the /output/image_encrypted topic.
